@@ -142,13 +142,6 @@ def question_1():
     det_2 = np.linalg.det(A)
     print(f'root2 value: {xsoln}\nComputed det(A) when x=root1: {det_2}\n')
 
-    """
-    root1 value = 11.687355 (to 6 correct decimal places) root2 value = -17.509125 (to 6 correct decimal places) 
-    By inspection, det(A) at x=root1 has 5 correct digits after the decimal place, with the 6th being 6 when it 
-    should be 0. By inspection, det(A) at x=root2 has 4 correct digits after the decimal place, with the 5th being 8 
-    when it should be 0. Approximate error was implemented for question 3 and was set to 1.e-09 for this question.
-    """
-
 
 # QUESTION 2.)
 def question_2():
@@ -168,15 +161,6 @@ def question_2():
     print(f'Solution = {xsoln}')
     print('Relative error = {0:8.3e}'.format(ea))
     print('Number of iterations = {0:5d}\n'.format(n))
-
-    """
-    When analyzing the performance of each equation using x0=1 and x1=2, I am judging the speed of convergence 
-    (number of iterations) and accuracy (relative error), given the default relative error threshold of 1.e-7. 
-    The fastest and most accurate was equation c., with the smallest relative error and number of iterations
-    1.827e-10 and 6, respectively. Equation b. placed 2nd, with a relative error and number of iterations 2.159e-10
-    and 7, respectively. Equation a. placed last, with a relative error and number of iterations 2.347e-10
-    and 7, respectively.
-    """
 
 
 # QUESTION 3.)
