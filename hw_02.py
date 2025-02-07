@@ -123,7 +123,7 @@ def parabolic_interpolation(f, x1, x2, x3, maxit=10):
               / ((x2 - x1) * (f(x2) - f(x3)) - (x2 - x3) * (f(x2) - f(x1))))
 
         if (x3 > x4 > x2) or (x2 > x4 > x3):  # Check if x4 is between x3 and x2
-            if f(x4) < f(x2):
+            if  f(x4) < f(x2):
                 x1 = x2
                 x2 = x4
             else:
