@@ -12,7 +12,6 @@ as a member of the Kennesaw State University community, I will not participate i
 any form of academic misconduct.”
 """
 
-import math
 import numpy as np
 
 def question_1():
@@ -23,7 +22,7 @@ def question_1():
         [1, -1, 0, 0, 0],
         [0, 2, -9, 0, 0],
         [0, 1, 6, -9, 2],
-        [5, 1, 0, 0, -6],
+        [5, 1, 0, 0, -6]
         ])
 
     # solution matrix
@@ -49,9 +48,42 @@ def question_1():
 
     print('All mass balances verified.')
 
+
+def question_2():
+    print('Question 2.')
+
+    # coefficient matrix
+    A = np.matrix([
+        [-4, 1, 1, 0],
+        [1, -4, 0, 1],
+        [1, 0, -4, 1],
+        [0, 1, 1, -4]
+    ])
+
+    # solution matrix
+    b = np.matrix([
+        [-175],
+        [-125],
+        [-75],
+        [-25],
+    ])
+
+    print('Node temperature values T_11, T_12, T_21, T_22, respectively')
+    sol = np.linalg.solve(A, b)
+    print(sol)
+
+    # Verify steady-state distributions by taking the abs difference of the LHS and RHS, which should result in 0.
+    epsilon = 1e-13  # Account for floating point imprecision, use a small epsilon instead of actual 0.
+    assert abs(100 - 4*sol[0,0] + sol[2,0] + 75 + sol[1,0]) < epsilon  # Node T_11
+    assert abs(100 - 4*sol[1,0] + sol[3,0] + sol[0,0] + 25) < epsilon  # Node T_12
+    assert abs(sol[0,0] - 4*sol[2,0] + 0 + 75 + sol[3,0]) < epsilon  # Node T_21
+    assert abs(sol[1,0] - 4*sol[3,0] + 0 + sol[2,0] + 25) < epsilon  # Node T_22
+
+    print('All steady-state distributions verified.')
+
 def main():
     question_1()
-    #question_2()
+    question_2()
 
 
 if __name__ == '__main__':
