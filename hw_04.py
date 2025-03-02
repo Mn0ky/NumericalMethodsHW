@@ -10,7 +10,6 @@
 import math
 
 import numpy as np
-import sys
 
 def GaussSeidel(A, b, es=1.e-7, maxit=50):
     """
@@ -54,10 +53,53 @@ def GaussSeidel(A, b, es=1.e-7, maxit=50):
     else:
         return x,it
 
+def GaussSeidelR(A, b, lam=1, es=1.e-7, maxit=50):
+    """
+    Implements the Gauss-Seidel method
+    to solve a set of linear algebraic equations
+    without relaxation
+    Input:
+    A = coefficient matris
+    b = constant vector
+    es = stopping criterion (default = 1.e-7)
+    maxit = maximum number of iterations (default=50)
+    Output:
+    x = solution vector
+    """
+    n, m = np.shape(A)
+    if n != m:
+        return 'Coefficient matrix must be square'
+    C = np.zeros((n, n))
+    x = np.zeros((n, 1))
+    for i in range(n):  # set up C matrix with zeros on the diagonal
+        for j in range(n):
+            if i != j:
+                C[i, j] = A[i, j]
+    d = np.zeros((n, 1))
+    for i in range(n):  # divide C elements by A pivots
+        C[i, 0:n] = C[i, 0:n] / A[i, i]
+        d[i] = b[i] / A[i, i]
+    ea = np.zeros((n, 1))
+    xold = np.zeros((n, 1))
+    for it in range(maxit):  # Gauss-Seidel method
+        for i in range(n):
+            xold[i] = x[i]  # save the x's for convergence test
+        for i in range(n):
+            x[i] = d[i] - C[i, :].dot(x)  # update the x's 1-by-1
+            x[i] = lam*x[i] + (1-lam)*xold[i] # adjust for any added relaxation
+            if x[i] != 0:
+                ea[i] = abs((x[i] - xold[i]) / x[i])  # compute change error
+        if np.max(ea) < es:  # exit for loop if stopping criterion met
+            break
+    if it == maxit:  # check for maximum iteration exit
+        return 'maximum iterations reached'
+    else:
+        return x,it, np.max(ea)
+
 
 def question_1():
     print('Question 1')
-    for n in [10, 100, 1000, 10000, 100000]:
+    for n in [10, 100, 1000]:
         print('n = ', n)
         a = np.zeros((n, n))
         b = np.ones((n, 1))
@@ -77,14 +119,14 @@ def question_1():
             a[row, col + 2] = -1
         a[n - 1, n - 2] = -1
         a[n - 1, n - 1] = 3
-        print(a)
-        print(b)
+        print(f'A: \n{a[:3]}\n...\n{a[-3:]}')
+        print(f'b: \n{b[:3]}\n...\n{b[-3:]}')
 
-    (x, num_iters) = GaussSeidel(a, b, es=1.e-6, maxit=50)
-    rel_error = np.linalg.norm(x - actual_sol, np.inf) / np.linalg.norm(actual_sol, np.inf)
-    print('Solution is\n', x)
-    print('Number of iterations = ', num_iters)
-    print('Relative error: ', rel_error)
+        (x, num_iters) = GaussSeidel(a, b, es=1.e-6, maxit=200)
+        rel_error = np.linalg.norm(x - actual_sol, np.inf) / np.linalg.norm(actual_sol, np.inf)
+        print(f'solution matrix: \n{x[:3]}\n...\n{x[-3:]}')
+        print('Number of iterations = ', num_iters)
+        print('Relative error: ', str(rel_error) + '\n')
 
 
 def question_2_a():
@@ -146,11 +188,30 @@ def question_2_b():
         print(f'error magnification factor is\n{mag_factor}\n')
 
 
+def question_3():
+    a = np.matrix([[0.8, -0.4, 0, 0],
+                   [-0.4, 0.8, -0.4, 0],
+                   [0, -0.4, 0.8, -0.4],
+                   [0, 0, 0.4, 0.8]])
+    b = [[44],
+         [27],
+         [110],
+         [84]]
+
+    for l in [1, 0.8, 1.2]:
+        print('relaxation = ', l)
+        (x, num_iters, rel_error) = GaussSeidelR(a, b, l, es=1.e-1, maxit=50)
+        print('x = ', x)
+        print('num_iters = ', num_iters)
+        print('rel_error = ', rel_error)
+
+
 def main():
     #np.set_printoptions(threshold=sys.maxsize)
     question_1()
     # question_2_a()
     # question_2_b()
+    #question_3()
 
 
 if __name__ == '__main__':
