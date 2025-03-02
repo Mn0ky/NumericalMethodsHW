@@ -18,7 +18,7 @@ def GaussSeidel(A, b, es=1.e-7, maxit=50):
     to solve a set of linear algebraic equations
     without relaxation
     Input:
-    A = coefficient matris
+    A = coefficient matrix
     b = constant vector
     es = stopping criterion (default = 1.e-7)
     maxit = maximum number of iterations (default=50)
