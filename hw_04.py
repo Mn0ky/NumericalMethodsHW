@@ -7,6 +7,7 @@
 # to the entire KSU community that I act in a manner consistent with the highest level of academic
 # integrity. Therefore, I promise that as a member of the Kennesaw State University community, I
 # will not participate in any form of academic misconduct."
+
 import math
 
 import numpy as np
@@ -99,7 +100,7 @@ def GaussSeidelR(A, b, lam=1, es=1.e-7, maxit=50):
 
 def question_1():
     print('Question 1')
-    for n in [10, 100, 1000]:
+    for n in [10, 100, 1000, 10000, 10000]:
         print('n = ', n)
         a = np.zeros((n, n))
         b = np.ones((n, 1))
@@ -131,7 +132,7 @@ def question_1():
 
 def question_2_a():
     print('Question 2.a')
-    for n in [100, 200, 300, 400, 500]:
+    for n in [10, 100, 200, 300, 400, 500]:
         print('n = ', n)
         a = np.zeros((n, n))
         x = np.ones((n, 1))
@@ -144,7 +145,6 @@ def question_2_a():
                 a[row, col] = entry
 
         b = a*x
-        #print(b)
 
         sol = np.linalg.solve(a, b)
         forward_error = sol - x
@@ -152,7 +152,6 @@ def question_2_a():
         mag_factor = inf_norm_forward_error / np.linalg.norm(b, np.inf)
         cond_num = np.linalg.cond(a)
 
-        #print('Solution is\n', sol)
         print('Forward error infinity norm is\n', inf_norm_forward_error)
         print('Condition num is\n', cond_num)
         print(f'error magnification factor is\n{mag_factor}\n')
@@ -173,10 +172,8 @@ def question_2_b():
                 a[row, col] = entry
 
         b = a * x
-        #print(b)
 
         sol = np.linalg.solve(a, b)
-        print('Solution is\n', sol)
         forward_error = sol - x
         inf_norm_forward_error = np.linalg.norm(forward_error, np.inf)
         mag_factor = inf_norm_forward_error / np.linalg.norm(b, np.inf)
@@ -203,15 +200,14 @@ def question_3():
         (x, num_iters, rel_error) = GaussSeidelR(a, b, l, es=1.e-1, maxit=50)
         print('x = ', x)
         print('num_iters = ', num_iters)
-        print('rel_error = ', rel_error)
+        print('rel_error = ', str(rel_error) + '\n')
 
 
 def main():
-    #np.set_printoptions(threshold=sys.maxsize)
     question_1()
-    # question_2_a()
-    # question_2_b()
-    #question_3()
+    question_2_a()
+    question_2_b()
+    question_3()
 
 
 if __name__ == '__main__':
