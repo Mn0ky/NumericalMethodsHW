@@ -82,6 +82,7 @@ def question_11_13():
     print(f'Circular matrix inverse:\n{A_inv}')
     print(f'Circular matrix condition number:\n{A_cond}')
 
+
 def main():
     question_11_1()
     question_11_2()
