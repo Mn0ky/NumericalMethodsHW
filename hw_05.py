@@ -144,7 +144,7 @@ def question_4():
 
     # Construct matrix equation
     A = np.matrix([[n, x_1_sum, x_2_sum], [x_1_sum, x_1_sq_sum, x_1_prod_x_2_sum], [x_2_sum, x_1_prod_x_2_sum, x_2_sq_sum]])
-    b = np.matrix([[y_sum], [x_1_prod_y_sum], [x_2_prod_y_sum]])
+    b = np.matrix([[y_sum], [x_1_prod_y_sum], [x_2_prod_y_sum]])    
 
     model_results = np.linalg.solve(A, b)
     b_0 = model_results[0,0]
